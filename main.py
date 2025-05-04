@@ -12,9 +12,10 @@ from app.telegrammes import send_telegram_message
 from app.getweeklydata import fetch_weekly_data
 from app.calculatelevels import calculate_levels
 from app.update_google_sheet import update_google_sheet
+from app.config import Config
 
 # Настройки
-SPREADSHEET_ID = '1LLzIABvgdKr98y1szjAf7aygvzR7vNfdKWjQeNqipdM'
+SPREADSHEET_ID = Config.SHEETS_ID
 CHECK_INTERVAL = 5  # минут
 CREDS_FILE = 'credentials.json'
 SYMBOLS = ['BTC/USDT', 'ETH/USDT', 'XRP/USDT', 'BNB/USDT', 'SOL/USDT', 'DOGE/USDT',

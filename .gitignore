@@ -1,3 +1,4 @@
 .env
 atr_updater.log
 credentials.json
+__pycache__
