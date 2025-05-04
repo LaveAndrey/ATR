@@ -34,7 +34,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('../ARTNEW/atr_updater.log'),
+        logging.FileHandler('/app/atr_updater.log'),
         logging.StreamHandler()
     ]
 )
