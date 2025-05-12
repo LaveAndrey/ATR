@@ -41,14 +41,25 @@ logging.basicConfig(
 
 
 def reset_counters_if_needed():
-    """Сбрасывает счетчики раз в неделю"""
+    """Сбрасывает счетчики только в понедельник в 3:00"""
     global last_reset_time, signal_counters
     now = datetime.now(pytz.timezone(TIMEZONE))
 
-    if last_reset_time is None or (now - last_reset_time) >= timedelta(weeks=1):
+    # Проверяем, что:
+    # 1. Сегодня понедельник (weekday=0)
+    # 2. Время >= 3:00
+    # 3. С момента последнего сброса прошла неделя (или он еще не выполнялся)
+    if (
+        now.weekday() == 0  # Понедельник
+        and now.hour >= 3   # После 3:00
+        and (
+            last_reset_time is None
+            or (now - last_reset_time) >= timedelta(days=7)
+        )
+    ):
         signal_counters = {}
-        last_reset_time = now
-        logging.info("Счетчики сигналов сброшены (новая неделя)")
+        last_reset_time = now.replace(hour=3, minute=0, second=0, microsecond=0)
+        logging.info("Счетчики сигналов сброшены (еженедельно в понедельник в 3:00)")
         send_telegram_message("🔄 Счетчики сигналов сброшены - начата новая неделя")
 
 
@@ -230,7 +241,6 @@ def generate_report():
 def main():
     """Запускает планировщик"""
     try:
-        reset_counters_if_needed()
         scheduler = BlockingScheduler(timezone=pytz.timezone(TIMEZONE))
         hour, minute = map(int, TIME_TO_RUN.split(':'))
 
@@ -239,7 +249,7 @@ def main():
             'cron',
             day_of_week='mon',
             hour=3,
-            minute=1,
+            minute=0,
             name="Reset signal counters"
         )
 
