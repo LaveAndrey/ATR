@@ -196,8 +196,8 @@ def send_report_for_symbol(symbol):
             f"📅 Дата: {levels['timestamp'].strftime('%Y-%m-%d')}\n\n"
             f"▫️ Неделя max: <code>{levels['week_max']:.2f}</code>\n"
             f"▫️ 1/2 max: <code>{levels['half_week_max']:.2f}</code>\n"
-            f"▫️ Неделя min: <code>{levels['week_min']:.2f}</code>\n"
-            f"▫️ 1/2 min: <code>{levels['half_week_min']:.2f}</code>"
+            f"▫️ 1/2 min: <code>{levels['half_week_min']:.2f}</code>\n"
+            f"▫️ Неделя min: <code>{levels['week_min']:.2f}</code>"
         )
 
         if send_telegram_message(message):
